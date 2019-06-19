@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.bonitasoft.engine.bpm.contract.ContractViolationException;
 import org.bonitasoft.engine.bpm.flownode.ActivityInstanceCriterion;
+import org.bonitasoft.engine.bpm.flownode.ArchivedActivityInstance;
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance;
 import org.bonitasoft.engine.bpm.process.ProcessInstance;
 import org.bonitasoft.engine.identity.User;
@@ -111,7 +112,7 @@ public class ExpenseNoteIT extends TestConfiguration {
 		assertThat(processAPI.getPendingHumanTaskInstances(financialAgent.getId(), 0, 1,
 				ActivityInstanceCriterion.DEFAULT)).extracting("name").contains(taskInstance.getName());
 	}
-	
+
 	@Test
 	public void should_wait_for_financial_director_validation_when_expense_note_is_above_authorized_financial_agent_threshold()
 			throws Exception {
@@ -142,6 +143,33 @@ public class ExpenseNoteIT extends TestConfiguration {
 		User financialDirector = user("zachary.williamson");
 		assertThat(processAPI.getPendingHumanTaskInstances(financialDirector.getId(), 0, 1,
 				ActivityInstanceCriterion.DEFAULT)).extracting("name").contains(taskInstance.getName());
+	}
+
+	@Test
+	public void should_execute_payment_activity_when_expense_is_validated() throws Exception {
+		// Given
+		ProcessAPI processAPI = apiTestSPUtil.getProcessAPI();
+		Map<String, Serializable> inputs = new HashMap<>();
+		Map<String, Serializable> expenseInput = new HashMap<>();
+		expenseInput.put("amount", 20);
+		expenseInput.put("reason", "Food");
+		inputs.put("expenseInput", (Serializable) expenseInput);
+
+		// When
+		User user = user("walter.bates");
+		ProcessInstance processInstance = processAPI.startProcessWithInputs(user.getId(), processId("Expense report"),
+				inputs);
+		HumanTaskInstance taskInstance = (HumanTaskInstance) apiTestSPUtil.waitForUserTaskAndGetIt(processInstance,
+				"Validate expense");
+		expenseInput = new HashMap<>();
+		expenseInput.put("validated", true);
+		inputs.put("expenseInput", (Serializable) expenseInput);
+		processAPI.executeUserTask(user.getManagerUserId(), taskInstance.getId(), inputs);
+
+		// Then
+		ArchivedActivityInstance paymentActivity = apiTestSPUtil.waitForFinalArchivedActivity("Payment",
+				processInstance).getResult();
+		assertThat(paymentActivity).isNotNull();
 	}
 
 }
