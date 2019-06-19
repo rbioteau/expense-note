@@ -8,7 +8,7 @@
 
 	<properties>
 		<bonita.version>7.9.0</bonita.version>
-		<lic.dir>/home/romain/lic</lic.dir>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
 	<dependencies>
@@ -54,9 +54,6 @@
 					<includes>
 						<include>*IT</include>
 					</includes>
-					<systemPropertyVariables>
-						<bonita.client.home>${lic.dir}</bonita.client.home>
-					</systemPropertyVariables>
 				</configuration>
 			</plugin>
 			<plugin>
