@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_XNAiAJJvEemfarAz4_09HQ" name="Expense report" author="romain" bonitaVersion="7.9.0" bonitaModelVersion="7.9.0-002" configId="ACED000574001E457870656E7365207265706F7274372E392E302D303032372E392E307370">
     <elements xmi:type="process:Pool" xmi:id="_XNAiAZJvEemfarAz4_09HQ" name="Expense report">
       <elements xmi:type="process:Lane" xmi:id="_XNAiApJvEemfarAz4_09HQ" name="Employé (lane)" actor="_XNAiG5JvEemfarAz4_09HQ">
@@ -19,7 +19,7 @@
           <stepSummary xmi:type="expression:Expression" xmi:id="__gT70ZJxEemfarAz4_09HQ" name="" content="" returnTypeFixed="true"/>
         </elements>
       </elements>
-      <elements xmi:type="process:Lane" xmi:id="_kUR6QJJvEemfarAz4_09HQ" name="Manager" actor="_bmcAYJJvEemfarAz4_09HQ">
+      <elements xmi:type="process:Lane" xmi:id="_kUR6QJJvEemfarAz4_09HQ" name="Manager" actor="_XNAiG5JvEemfarAz4_09HQ">
         <elements xmi:type="process:Task" xmi:id="_XNAiB5JvEemfarAz4_09HQ" name="Validate expense" outgoing="_wD7YQJJvEemfarAz4_09HQ" incoming="_XNAiGJJvEemfarAz4_09HQ" overrideActorsOfTheLane="false">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_XNAiCJJvEemfarAz4_09HQ" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_XNAiCZJvEemfarAz4_09HQ" name="" content="" returnTypeFixed="true"/>
@@ -43,6 +43,16 @@
           <formMapping xmi:type="process:FormMapping" xmi:id="_XNAiEJJvEemfarAz4_09HQ">
             <targetForm xmi:type="expression:Expression" xmi:id="_spvT4JJwEemfarAz4_09HQ" name="ValidateExpense" content="7cbf668a-cc41-4d63-a10b-254cc1eab865" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
           </formMapping>
+          <filters xmi:type="process:ActorFilter" xmi:id="_ypcuYJKCEemfarAz4_09HQ" name="initiatorManager" definitionId="user-manager" definitionVersion="1.0.0">
+            <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_ypcuYZKCEemfarAz4_09HQ" definitionId="user-manager" version="1.0.0">
+              <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_ypcuYpKCEemfarAz4_09HQ" key="userId">
+                <expression xmi:type="expression:Expression" xmi:id="_ypcuY5KCEemfarAz4_09HQ" name="userId()" content="BonitaUsers.getProcessInstanceInitiator(apiAccessor,processInstanceId).id" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Long" returnTypeFixed="true">
+                  <referencedElements xmi:type="expression:Expression" xmi:id="_ypcuZJKCEemfarAz4_09HQ" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+                  <referencedElements xmi:type="expression:Expression" xmi:id="_ypcuZZKCEemfarAz4_09HQ" name="apiAccessor" content="apiAccessor" type="TYPE_ENGINE_CONSTANT" returnType="com.bonitasoft.engine.api.APIAccessor"/>
+                </expression>
+              </parameters>
+            </configuration>
+          </filters>
           <contract xmi:type="process:Contract" xmi:id="_XNAiEpJvEemfarAz4_09HQ">
             <inputs xmi:type="process:ContractInput" xmi:id="_rORbcJJwEemfarAz4_09HQ" name="expenseInput" type="COMPLEX" dataReference="expense" createMode="false">
               <inputs xmi:type="process:ContractInput" xmi:id="_rORbcZJwEemfarAz4_09HQ" name="validated" type="BOOLEAN" createMode="false"/>
@@ -168,7 +178,7 @@
         </elements>
       </elements>
       <elements xmi:type="process:Lane" xmi:id="_nIAmIJJvEemfarAz4_09HQ" name="Financial director" actor="_gCcRoJJvEemfarAz4_09HQ">
-        <elements xmi:type="process:Task" xmi:id="_lIi94JJxEemfarAz4_09HQ" name="Validate Expense (FD)" outgoing="_57aI0JJxEemfarAz4_09HQ" incoming="_jwN5AJJxEemfarAz4_09HQ" overrideActorsOfTheLane="false">
+        <elements xmi:type="process:Task" xmi:id="_lIi94JJxEemfarAz4_09HQ" name="Validate expense (FD)" outgoing="_57aI0JJxEemfarAz4_09HQ" incoming="_jwN5AJJxEemfarAz4_09HQ" overrideActorsOfTheLane="false">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_jwJnkJJxEemfarAz4_09HQ" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_jwJAgJJxEemfarAz4_09HQ" name="" content="" returnTypeFixed="true"/>
           <stepSummary xmi:type="expression:Expression" xmi:id="_jwJnkZJxEemfarAz4_09HQ" name="" content="" returnTypeFixed="true"/>
@@ -247,7 +257,7 @@
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_HriGQJJxEemfarAz4_09HQ" target="_JXjjMJJxEemfarAz4_09HQ" source="_wlFkkJJvEemfarAz4_09HQ">
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_HriGQZJxEemfarAz4_09HQ"/>
-        <condition xmi:type="expression:Expression" xmi:id="_HriGQpJxEemfarAz4_09HQ" name="newScript()" content="expense.isValidated() &amp;&amp; expense.amount >= managerAmountThreshold &amp;&amp; expense.amount &lt;= financialAgentAmountThreshold" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
+        <condition xmi:type="expression:Expression" xmi:id="_HriGQpJxEemfarAz4_09HQ" name="newScript()" content="expense.isValidated() &amp;&amp; expense.amount >= managerAmountThreshold &amp;&amp; expense.amount &lt; financialAgentAmountThreshold" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
           <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_h9wc4JJxEemfarAz4_09HQ" name="expense" dataType="_XNAiNJJvEemfarAz4_09HQ" className="com.company.model.Expense"/>
           <referencedElements xmi:type="parameter:Parameter" xmi:id="_h9wc4ZJxEemfarAz4_09HQ" name="managerAmountThreshold" typeClassname="java.lang.Double"/>
           <referencedElements xmi:type="parameter:Parameter" xmi:id="_h9wc4pJxEemfarAz4_09HQ" name="financialAgentAmountThreshold" typeClassname="java.lang.Double"/>
@@ -290,9 +300,59 @@
         <condition xmi:type="expression:Expression" xmi:id="__1hW0pJxEemfarAz4_09HQ" name="" content="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
       </connections>
       <actors xmi:type="process:Actor" xmi:id="_XNAiG5JvEemfarAz4_09HQ" name="Employee" initiator="true"/>
-      <actors xmi:type="process:Actor" xmi:id="_bmcAYJJvEemfarAz4_09HQ" name="Manager"/>
       <actors xmi:type="process:Actor" xmi:id="_cOBk0JJvEemfarAz4_09HQ" name="Financial agent"/>
       <actors xmi:type="process:Actor" xmi:id="_gCcRoJJvEemfarAz4_09HQ" name="Financial director"/>
+      <configurations xmi:type="configuration:Configuration" xmi:id="_5vEisJKBEemfarAz4_09HQ" name="Test" version="7.9.0-002" username="walter.bates" password="bpm">
+        <actorMappings xmi:type="actormapping:ActorMappingsType" xmi:id="_5vFw0JKBEemfarAz4_09HQ">
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_5vFw0ZKBEemfarAz4_09HQ" name="Employee">
+            <groups xmi:type="actormapping:Groups" xmi:id="_5vFw0pKBEemfarAz4_09HQ">
+              <group>/acme</group>
+            </groups>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_5vFw05KBEemfarAz4_09HQ"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_5vFw1JKBEemfarAz4_09HQ"/>
+            <users xmi:type="actormapping:Users" xmi:id="_5vFw1ZKBEemfarAz4_09HQ"/>
+          </actorMapping>
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_5vFw25KBEemfarAz4_09HQ" name="Financial agent">
+            <groups xmi:type="actormapping:Groups" xmi:id="_5vFw3JKBEemfarAz4_09HQ">
+              <group>/acme/finance</group>
+            </groups>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_5vFw3ZKBEemfarAz4_09HQ"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_5vFw3pKBEemfarAz4_09HQ"/>
+            <users xmi:type="actormapping:Users" xmi:id="_5vFw35KBEemfarAz4_09HQ"/>
+          </actorMapping>
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_5vFw4JKBEemfarAz4_09HQ" name="Financial director">
+            <groups xmi:type="actormapping:Groups" xmi:id="_5vFw4ZKBEemfarAz4_09HQ"/>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_5vFw4pKBEemfarAz4_09HQ"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_5vFw45KBEemfarAz4_09HQ"/>
+            <users xmi:type="actormapping:Users" xmi:id="_5vFw5JKBEemfarAz4_09HQ">
+              <user>zachary.williamson</user>
+            </users>
+          </actorMapping>
+        </actorMappings>
+        <definitionMappings xmi:type="configuration:DefinitionMapping" xmi:id="_5vEisZKBEemfarAz4_09HQ" type="CONNECTOR" definitionId="email" definitionVersion="1.0.0" implementationId="email-impl" implementationVersion="1.1.0"/>
+        <definitionMappings xmi:type="configuration:DefinitionMapping" xmi:id="_zjCo0JKCEemfarAz4_09HQ" type="ACTOR_FILTER" definitionId="user-manager" definitionVersion="1.0.0" implementationId="user-manager-impl" implementationVersion="1.0.0"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vEispKBEemfarAz4_09HQ" id="ACTOR_FILTER">
+          <children xmi:type="configuration:FragmentContainer" xmi:id="_zqWxwJKCEemfarAz4_09HQ" id="user-manager-impl-1.0.0">
+            <fragments xmi:type="configuration:Fragment" xmi:id="_zqX_4JKCEemfarAz4_09HQ" key="user-manager-impl -- 1.0.0" value="bonita-userfilter-user-manager-impl-1.0.0-SNAPSHOT.jar" type="ACTOR_FILTER"/>
+          </children>
+        </processDependencies>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vEis5KBEemfarAz4_09HQ" id="CONNECTOR">
+          <children xmi:type="configuration:FragmentContainer" xmi:id="_5vEitJKBEemfarAz4_09HQ" id="email-impl-1.1.0">
+            <fragments xmi:type="configuration:Fragment" xmi:id="_5vEitZKBEemfarAz4_09HQ" key="email-impl -- 1.1.0" value="bonita-connector-email-1.1.0.jar" type="CONNECTOR"/>
+            <fragments xmi:type="configuration:Fragment" xmi:id="_5vEitpKBEemfarAz4_09HQ" key="email-impl -- 1.1.0" value="mail-1.4.7.jar" type="CONNECTOR"/>
+          </children>
+        </processDependencies>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vEit5KBEemfarAz4_09HQ" id="DATA_TYPES"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vEiuJKBEemfarAz4_09HQ" id="GROOVY_SCRIPT"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vEiuZKBEemfarAz4_09HQ" id="OTHER"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vFJwJKBEemfarAz4_09HQ" id="DATA_TYPES"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vFJwZKBEemfarAz4_09HQ" id="GROOVY_SCRIPT"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vFJwpKBEemfarAz4_09HQ" id="OTHER"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_5vFw5ZKBEemfarAz4_09HQ" name="smtp" value="smtp.gmail.com" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_5vFw5pKBEemfarAz4_09HQ" name="smtpPort" value="465" typeClassname="java.lang.Integer"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_5vG-8JKBEemfarAz4_09HQ" name="managerAmountThreshold" value="500" typeClassname="java.lang.Double"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_5vG-8ZKBEemfarAz4_09HQ" name="financialAgentAmountThreshold" value="2000" typeClassname="java.lang.Double"/>
+      </configurations>
       <parameters xmi:type="parameter:Parameter" xmi:id="_5StcAJJvEemfarAz4_09HQ" name="smtp" typeClassname="java.lang.String"/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_6kGycJJvEemfarAz4_09HQ" name="smtpPort" typeClassname="java.lang.Integer"/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_4cBPIJJwEemfarAz4_09HQ" name="managerAmountThreshold" typeClassname="java.lang.Double"/>
@@ -302,6 +362,12 @@
           <inputs xmi:type="process:ContractInput" xmi:id="_kXZDMZJwEemfarAz4_09HQ" name="amount" type="DECIMAL"/>
           <inputs xmi:type="process:ContractInput" xmi:id="_kXZDMpJwEemfarAz4_09HQ" name="reason"/>
         </inputs>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_E24vMJKDEemfarAz4_09HQ" expression="expenseInput.amount > 0" errorMessage="Amount should be greather than 0" name="amount_must_be_positive">
+          <inputNames>expenseInput</inputNames>
+        </constraints>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_M4ywIJKDEemfarAz4_09HQ" expression="expenseInput.reason != null &amp;&amp; !expenseInput.reason.isEmpty()" errorMessage="A reason must be given" name="mandatory reason">
+          <inputNames>expenseInput</inputNames>
+        </constraints>
       </contract>
       <searchIndexes xmi:type="process:SearchIndex" xmi:id="_XNAiHZJvEemfarAz4_09HQ">
         <name xmi:type="expression:Expression" xmi:id="_XNAiHpJvEemfarAz4_09HQ" content="" returnTypeFixed="true"/>
@@ -497,7 +563,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_jwSxgJJxEemfarAz4_09HQ" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_jwRjYZJxEemfarAz4_09HQ" fontName="Ubuntu"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jwRjYpJxEemfarAz4_09HQ" points="[22, 0, -306, -500]$[310, 0, -18, -500]$[310, 475, -18, -25]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_jwRjYpJxEemfarAz4_09HQ" points="[22, 0, -316, -505]$[315, 0, -23, -505]$[315, 475, -23, -30]"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_y8sDM5JxEemfarAz4_09HQ" type="4001" element="_y8sDMJJxEemfarAz4_09HQ" source="_JXkxUJJxEemfarAz4_09HQ" target="_zVI_dJJxEemfarAz4_09HQ" roundedBendpointsRadius="10" routing="Rectilinear">
       <children xmi:type="notation:DecorationNode" xmi:id="_y8sqQpJxEemfarAz4_09HQ" type="6001">
@@ -519,7 +585,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_2fO85JJxEemfarAz4_09HQ" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_2fO84ZJxEemfarAz4_09HQ" fontName="Ubuntu"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_2fO84pJxEemfarAz4_09HQ" points="[-24, -29, 161, 500]$[-24, -512, 161, 17]$[-179, -512, 6, 17]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_2fO84pJxEemfarAz4_09HQ" points="[-24, -29, 161, 500]$[-24, -518, 161, 11]$[-176, -518, 9, 11]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_2fQyEJJxEemfarAz4_09HQ" id="(1.0,0.7209302325581395)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_2fQyEZJxEemfarAz4_09HQ" id="(0.6666666666666666,0.23333333333333334)"/>
     </edges>
