@@ -7,6 +7,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.bonitasoft.engine.api.ApiAccessType;
+import org.bonitasoft.engine.bpm.process.DesignProcessDefinition;
 import org.bonitasoft.engine.bpm.process.ProcessDefinition;
 import org.bonitasoft.engine.bpm.process.ProcessDefinitionNotFoundException;
 import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfo;
@@ -52,6 +53,12 @@ public class TestConfiguration {
 	}
 
 	protected long processId(String processName) throws SearchException, ProcessDefinitionNotFoundException {
+		List<ProcessDeploymentInfo> result = searchProcessDeploymentInfo(processName);
+		return result.get(0).getProcessId();
+	}
+
+	private List<ProcessDeploymentInfo> searchProcessDeploymentInfo(String processName)
+			throws SearchException, ProcessDefinitionNotFoundException {
 		ProcessAPI processAPI = apiTestSPUtil.getProcessAPI();
 		List<ProcessDeploymentInfo> result = processAPI.searchProcessDeploymentInfos(
 				new SearchOptionsBuilder(0, 99).filter(ProcessDeploymentInfoSearchDescriptor.NAME, processName)
@@ -62,7 +69,13 @@ public class TestConfiguration {
 			throw new ProcessDefinitionNotFoundException(
 					String.format("No process definition found with name '%s'", processName));
 		}
-		return result.get(0).getProcessId();
+		return result;
+	}
+	
+
+	protected DesignProcessDefinition designProcessDefinition(String processName) throws SearchException, ProcessDefinitionNotFoundException {
+		List<ProcessDeploymentInfo> result = searchProcessDeploymentInfo(processName);
+		return apiTestSPUtil.getProcessAPI().getDesignProcessDefinition(result.get(0).getProcessId());
 	}
 
 	protected List<ProcessDefinition> getAllProcessDefinitions()

@@ -16,7 +16,6 @@
 			<groupId>com.bonitasoft.engine</groupId>
 			<artifactId>bonita-server-sp</artifactId>
 			<version>${bonita.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.bonitasoft.engine</groupId>

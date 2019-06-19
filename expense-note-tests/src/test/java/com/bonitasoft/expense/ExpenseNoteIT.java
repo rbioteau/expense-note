@@ -1,6 +1,7 @@
 package com.bonitasoft.expense;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.entry;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -9,9 +10,16 @@ import java.util.Map;
 import org.bonitasoft.engine.bpm.contract.ContractViolationException;
 import org.bonitasoft.engine.bpm.flownode.ActivityInstanceCriterion;
 import org.bonitasoft.engine.bpm.flownode.ArchivedActivityInstance;
+import org.bonitasoft.engine.bpm.flownode.FlowNodeExecutionException;
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance;
+import org.bonitasoft.engine.bpm.flownode.UserTaskNotFoundException;
+import org.bonitasoft.engine.bpm.process.ProcessActivationException;
+import org.bonitasoft.engine.bpm.process.ProcessDefinitionNotFoundException;
+import org.bonitasoft.engine.bpm.process.ProcessExecutionException;
 import org.bonitasoft.engine.bpm.process.ProcessInstance;
+import org.bonitasoft.engine.exception.SearchException;
 import org.bonitasoft.engine.identity.User;
+import org.bonitasoft.engine.identity.UserNotFoundException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -167,9 +175,52 @@ public class ExpenseNoteIT extends TestConfiguration {
 		processAPI.executeUserTask(user.getManagerUserId(), taskInstance.getId(), inputs);
 
 		// Then
-		ArchivedActivityInstance paymentActivity = apiTestSPUtil.waitForFinalArchivedActivity("Payment",
-				processInstance).getResult();
+		ArchivedActivityInstance paymentActivity = apiTestSPUtil
+				.waitForFinalArchivedActivity("Payment", processInstance).getResult();
 		assertThat(paymentActivity).isNotNull();
+	}
+
+	@Test
+	public void should_retrieve_specific_case_data() throws Exception {
+		// long c1 = runBasicCase(10, "Transport");
+		long c2 = runBasicCase(30, "Meal");
+		// long c3 = runBasicCase(80, "Conf");
+
+		ProcessAPI processAPI = apiTestSPUtil.getProcessAPI();
+		CaseHistory c2CaseHistory = new CaseHistoryFactory(processAPI).createCaseHistory(c2);
+		assertThat((Map<String, Serializable>) c2CaseHistory.getCaseInput().get("expenseInput"))
+				.contains(entry("amount", 30), entry("reason", "Meal"));
+		System.out.println(c2CaseHistory.prettyPrint());
+	}
+
+	private long runBasicCase(int amount, String reason)
+			throws UserNotFoundException, ProcessDefinitionNotFoundException, ProcessActivationException,
+			ProcessExecutionException, ContractViolationException, SearchException, Exception,
+			UserTaskNotFoundException, FlowNodeExecutionException {
+		// Given
+		ProcessAPI processAPI = apiTestSPUtil.getProcessAPI();
+		Map<String, Serializable> inputs = new HashMap<>();
+		Map<String, Serializable> expenseInput = new HashMap<>();
+		expenseInput.put("amount", amount);
+		expenseInput.put("reason", reason);
+		inputs.put("expenseInput", (Serializable) expenseInput);
+
+		// When
+		User user = user("walter.bates");
+		ProcessInstance processInstance = processAPI.startProcessWithInputs(user.getId(), processId("Expense report"),
+				inputs);
+		HumanTaskInstance taskInstance = (HumanTaskInstance) apiTestSPUtil.waitForUserTaskAndGetIt(processInstance,
+				"Validate expense");
+		expenseInput = new HashMap<>();
+		expenseInput.put("validated", true);
+		inputs.put("expenseInput", (Serializable) expenseInput);
+		processAPI.executeUserTask(user.getManagerUserId(), taskInstance.getId(), inputs);
+
+		// Then
+		ArchivedActivityInstance paymentActivity = apiTestSPUtil
+				.waitForFinalArchivedActivity("Payment", processInstance).getResult();
+		assertThat(paymentActivity).isNotNull();
+		return processInstance.getId();
 	}
 
 }
