@@ -29,7 +29,7 @@ public class TestConfiguration {
 	// Connecting API client to Studio runtime
 	static {
 		Map<String, String> parameters = new HashMap<>();
-		parameters.put("server.url", "http://localhost:8080");
+		parameters.put("server.url", System.getProperty("server.url", "http://localhost:8080"));
 		parameters.put("application.name", "bonita");
 		APITypeManager.setAPITypeAndParams(ApiAccessType.HTTP, parameters);
 	}
