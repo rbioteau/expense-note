@@ -69,7 +69,7 @@ public class TestConfiguration {
 			throws SearchException, ProcessDefinitionNotFoundException {
 		ProcessAPI processAPI = apiTestSPUtil.getProcessAPI();
 		return processAPI.searchProcessDeploymentInfos(new SearchOptionsBuilder(0, 99).done()).getResult().stream()
-				.map(ProcessDeploymentInfo::getId).map(id -> {
+				.map(ProcessDeploymentInfo::getProcessId).map(id -> {
 					try {
 						return processAPI.getProcessDefinition(id);
 					} catch (ProcessDefinitionNotFoundException e) {
