@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
-  <process:MainProcess xmi:id="_XNAiAJJvEemfarAz4_09HQ" name="Expense report" author="romain" bonitaVersion="7.9.0" bonitaModelVersion="7.9.0-002" configId="ACED000574001E457870656E7365207265706F7274372E392E302D303032372E392E307370">
+  <process:MainProcess xmi:id="_XNAiAJJvEemfarAz4_09HQ" name="Expense report" author="romain" bonitaVersion="7.9.3" bonitaModelVersion="7.9.0-002" configId="ACED000574001E457870656E7365207265706F7274372E392E302D303032372E392E337370">
     <elements xmi:type="process:Pool" xmi:id="_XNAiAZJvEemfarAz4_09HQ" name="Expense report">
       <elements xmi:type="process:Lane" xmi:id="_XNAiApJvEemfarAz4_09HQ" name="Employé (lane)" actor="_XNAiG5JvEemfarAz4_09HQ">
         <elements xmi:type="process:StartEvent" xmi:id="_XNAiA5JvEemfarAz4_09HQ" name="Start" outgoing="_XNAiGJJvEemfarAz4_09HQ">
@@ -329,7 +329,7 @@
             </users>
           </actorMapping>
         </actorMappings>
-        <definitionMappings xmi:type="configuration:DefinitionMapping" xmi:id="_5vEisZKBEemfarAz4_09HQ" type="CONNECTOR" definitionId="email" definitionVersion="1.0.0" implementationId="email-impl" implementationVersion="1.1.0"/>
+        <definitionMappings xmi:type="configuration:DefinitionMapping" xmi:id="_5vEisZKBEemfarAz4_09HQ" type="CONNECTOR" definitionId="email" definitionVersion="1.0.0" implementationId="email-impl" implementationVersion="1.1.1"/>
         <definitionMappings xmi:type="configuration:DefinitionMapping" xmi:id="_zjCo0JKCEemfarAz4_09HQ" type="ACTOR_FILTER" definitionId="user-manager" definitionVersion="1.0.0" implementationId="user-manager-impl" implementationVersion="1.0.0"/>
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vEispKBEemfarAz4_09HQ" id="ACTOR_FILTER">
           <children xmi:type="configuration:FragmentContainer" xmi:id="_zqWxwJKCEemfarAz4_09HQ" id="user-manager-impl-1.0.0">
@@ -337,9 +337,9 @@
           </children>
         </processDependencies>
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vEis5KBEemfarAz4_09HQ" id="CONNECTOR">
-          <children xmi:type="configuration:FragmentContainer" xmi:id="_5vEitJKBEemfarAz4_09HQ" id="email-impl-1.1.0">
-            <fragments xmi:type="configuration:Fragment" xmi:id="_5vEitZKBEemfarAz4_09HQ" key="email-impl -- 1.1.0" value="bonita-connector-email-1.1.0.jar" type="CONNECTOR"/>
-            <fragments xmi:type="configuration:Fragment" xmi:id="_5vEitpKBEemfarAz4_09HQ" key="email-impl -- 1.1.0" value="mail-1.4.7.jar" type="CONNECTOR"/>
+          <children xmi:type="configuration:FragmentContainer" xmi:id="_SpOWIOVjEemrKrbwZkKN8g" id="email-impl-1.1.1">
+            <fragments xmi:type="configuration:Fragment" xmi:id="_Spn-wOVjEemrKrbwZkKN8g" key="email-impl -- 1.1.1" value="bonita-connector-email-1.1.1.jar" type="CONNECTOR"/>
+            <fragments xmi:type="configuration:Fragment" xmi:id="_Spn-weVjEemrKrbwZkKN8g" key="email-impl -- 1.1.1" value="mail-1.4.7.jar" type="CONNECTOR"/>
           </children>
         </processDependencies>
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_5vEit5KBEemfarAz4_09HQ" id="DATA_TYPES"/>
